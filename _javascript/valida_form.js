@@ -26,7 +26,8 @@ document.querySelector("#validar").addEventListener("click", (e) => {
   validar_planos();
   validar_premiere();
   totaliza();
-  validar_senha()
+  validar_senha();
+  validar_tudo();
 });
 
 //validar Nome
@@ -63,7 +64,6 @@ function validar_cpf() {
 function validar_email() {
     emailValue = forms.email.value
     if (emailValue.includes("@") && emailValue.includes(".com")) {
-        console.log("certo")
         forms.email.style.border = ""
         return true
     }else {
@@ -121,9 +121,9 @@ function validar_times() {
 }
 
 //validar planos
+let validar = false
 
 function validar_planos() {
-    let validar = false
 
     forms.planos.forEach(plano => {
         if(plano.checked){
@@ -135,20 +135,22 @@ function validar_planos() {
         }else {
             document.querySelector("#tabela_planos").style.border = ""
         }
+
+        return validar
     })
 }
 
 // validar premiere
+let validarPremiere = false
 
 function validar_premiere() {
-    let validar = false
 
     forms.premiere.forEach(premieres => {
         if(premieres.checked){
-            validar = true
+            validarPremiere = true
         }
     
-        if(!validar){
+        if(!validar_premiere){
             document.querySelector("#tabela_premiere").style.border = "1px solid red"
         }else {
             document.querySelector("#tabela_premiere").style.border = ""
@@ -163,14 +165,27 @@ let loginJson = {
 }
 
 function validar_senha() {
+
     if (forms.login.value == loginJson.login && forms.senha.value == loginJson.senha) {
-        forms.submit.removeAttribute("disabled")
         forms.login.style.border = ""
         forms.senha.style.border = ""
     }else {
         forms.login.style.border = "1px solid red"
         forms.senha.style.border = "1px solid red"
     }
+}
+
+//Validar tudo
+
+function validar_tudo(){
+    if (validar_times && validar_email && validar_texto && validar_cpf &&
+    validar_salario && validar_cel && validar_nascimento && validar_senha && validarPremiere && validar) {
+        forms.submit.removeAttribute("disabled")
+    }else {
+        alert("Preencha todos os campos!")
+    }
+
+
 }
 
 
